@@ -1,0 +1,17 @@
+#div_profile_navbar:hover {
+    background: rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+#div_profile_navbar {
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+#div_profile_navbar text{
+    font-size: 18px;
+}
+.navbar_top{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="main (book)">
+
+      <div class="col div_main_container" >
+        <div class="card shadow-sm" style="white-space: normal;">
+        <table>
+            <tr>
+                <td>
+                    <div id = "wrapper-card-cover-img" style="position: relative;">
+                        <div style="text-align: center;">
+                            <div  style="display: inline-block; margin-top: 4px">
+                                <img  th:src="${book.cover} == null? '/resources/img/NoneBookImg.jpg' : '/resources/img/' + ${book.cover.nameFile}" class="bd-placeholder-img cardImgCover" width="232" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false" alt="..." >
+                            </div>
+                        </div>
+                        <div>
+                            <p th:text="${book.book.name}" id="card-text-name" class="card-text name_to_container" >Название книги</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <div class="card-body">
+                        <div id="card-genres-p" class="card_string_el">
+                            <span th:each="genre : ${book.book.genres}" class="badge text-bg-light" th:text="${genre.name}">Жанры книги</span>
+                        </div>
+
+                        <div class="card_string_el" id="card-tags-span">
+                            <span th:each="tag : ${book.book.tags}" class="badge rounded-pill bg-secondary" th:text="${tag.name}"></span>
+                        </div>
+
+                        <div class="justify-content-between align-items-center" id="card-author-small">
+                           <div class="justify-content-between align-items-center">
+                               <small class="text-muted"><a th:text="${book.book.authors.get(0).name}" class="a_conteiner a_author_conteiner" href="http://localhost:8080">Александр Седых Федоренко</a></small>
+                           </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+        </div>
+      </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+
+.div_main_container div:hover img{
+    opacity: 0.6;
+}
+.div_main_container div:hover{
+    cursor: pointer;
+}
+.div_main_container{
+    padding: 5px;
+}
+.name_to_container {
+    background: rgba(0,0,0,0.5); (полупрозрачность)
+    background: #222;
+    color: #fff;
+    border-radius: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    font-size: 18px;
+    padding: 3px 5px;
+    text-align: center;
+}
+.a_tag_conteiner {
+    color: aliceblue;
+}
+.a_conteiner {
+    text-decoration: none;
+    font-size: 80%;
+}
+.a_author_conteiner {
+    color: #55595C;
+}
+.wrapper-card-cover-img {
+    position: absolute;
+}
+.card-img-top {
+    max-width: 265px;
+    max-height: 354px;
+    position: absolute;
+    right: 0;
+}
+
+.gridCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+.card {
+    width: 250px;
+    height: 354px;
+    /*background-color: #55595C;*/
+    /*border: 1px solid #000; !* Рамка вокруг текста *!*/
+}
+.card_string_el {
+    display: flex;
+    overflow: hidden;
+    width: 210px;
+
+}
+.book_cover {
+    padding: 5px;
+    background: aliceblue;
+    border: 1px solid #000;
+}
+.button-filtr-main {
+    border: 1px solid gray;
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 3px;
+}
+.button-filtr-main:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+.cursorPointer {cursor: pointer;}
+.cardImgCover {
+    background: transparent url("https://shra.ru/wp-content/uploads/2015/10/ttl-64.gif") no-repeat scroll center center;
+}
+
+.buttonPlusMinus {
+    font-size: 20px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 50%;
+    text-align: center;
+}
+

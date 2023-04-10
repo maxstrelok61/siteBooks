@@ -1,0 +1,277 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/card.css">
+    <link rel="stylesheet" href="css/navbar.css">
+
+
+</head>
+
+<body class="bg-light">
+
+
+<div th:insert="~{fragments/navbar :: main (${user})}"></div>
+
+<main>
+    <div class="album py-5 bg-light" style="  display: flex;flex-direction: row;">
+        <div>
+            <div style="border: 2px solid #55595C; padding: 5px;margin: 5px; border-radius: 5px; max-width: 280px; min-width: 185px;">
+                <form name = "findFiltr" action="main" novalidate="" method="get">
+                    <table>
+                        <tr>
+                            <td>
+                                <label th:for="NameClassInputSearchNameBook" class="form-label">Название книги</label>
+                                <input type="text" class="form-control" name="bookName" th:id="NameClassInputSearchNameBook" placeholder="Search" required="">
+                            </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <label th:for="NameClassInputSearchTags" class="form-label">Тэги</label>
+                            <input type="text" class="form-control" th:id="NameClassInputSearchTgas" placeholder="Search" required="">
+                            <select size="5" class="form-select ft-tags" th:id="NameClassAllListTags" required="" style="margin-top: 4px">
+                                <option th:each="item : ${tags}" th:text="${item.name}" onclick="allTagsClickEl(this.outerText)"></option>
+                            </select>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <label th:for="NameClassInputSearchGenre" class="form-label">Жанры</label>
+                            <input type="text" class="form-control" th:id="NameClassInputSearchGenre" placeholder="Search" required="">
+                            <select size="5" class="form-select ft-tags" th:id="NameClassAllListGenre" required="" style="margin-top: 4px">
+                                <option th:each="item : ${genres}" th:text="${item.name}" onclick="allGenreClickEl(this.outerText)"></option>
+                            </select>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td>
+                                <div>Жанры для поиска</div>
+                                <div id = "SelectListGenre"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Тэги для поиска</div>
+                                <div id = "SelectListTag" ></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <button class="w-100 btn btn-lg btn-secondary" type="submit">Поиск</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="tagsListBook" id="_tagsListBook">
+                    <input type="hidden" name="genresListBook" id="_genresListBook">
+                </form>
+            </div>
+        </div>
+        <script th:inline="javascript">
+
+            function filter(val, _list) {
+                return _list.filter(it => it.indexOf(val) !== -1);
+            }
+            //---------------------------------------------------------------------
+            function delVal(val, list = []){
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i] == val) list.splice(i,1);
+                }
+            }
+            function checkArr(listAll = [], listS = []){
+                for (let i = 0; i < listS.length; i++) {
+                    delVal(listS[i], listAll);
+                }
+            }
+            //---------------------------------------------------------------------
+            function clickAll(obj, listAll = [], listS = []){
+                listS.push(obj);
+                for (let i = 0; i < listAll.length; i++) {
+                    if (obj == listAll[i]){
+                        listAll.splice(i,1);
+                    }
+                }
+            }
+            function clickSeclected(obj, listAll = [], listS = []){
+                listAll.push(obj);
+                for (let i = 0; i < listS.length; i++) {
+                    if (obj == listS[i]){
+                        listS.splice(i,1);
+                    }
+                }
+            }
+            function inputTags(_list = []){
+                const inputT = document.getElementById("_tagsListBook");
+                var str = "";
+                for (let i = 0; i < _list.length; i++) {
+                    str += _list[i];
+                    if ( i < _list.length - 1){
+                        str += ",";
+                    }
+                }
+                inputT.setAttribute("value", str);
+            }
+            function inputGenres(_list = []){
+                const inputG = document.getElementById("_genresListBook");
+                var str = "";
+                for (let i = 0; i < _list.length; i++) {
+                    str += _list[i];
+                    if ( i < _list.length - 1){
+                        str += ",";
+                    }
+                }
+                inputG.setAttribute("value", str);
+            }
+
+
+            var tempAllGenres = [[${genres}]];
+            var arrAllGenres = [];
+            for (let i = 0; i < tempAllGenres.length; i++) {
+                arrAllGenres[i] = tempAllGenres[i].name
+            }
+            var tempArrSelectGenres = [[${selectFiltrGenres}]];
+            var arrSelectGenres = [];
+            if (tempArrSelectGenres != null) {
+                if (tempArrSelectGenres[0] != null) {
+                    for (let i = 0; i < tempArrSelectGenres.length; i++) {
+                        arrSelectGenres[i] = tempArrSelectGenres[i].name;
+                    }
+                }
+            }
+
+            var tempAllTags = [[${tags}]];
+            var arrAllTags = [];
+            for (let i = 0; i < tempAllTags.length; i++) {
+                arrAllTags[i] = tempAllTags[i].name
+            }
+            var tempArrSelectTags = [[${selectFiltrTags}]];
+            var arrSelectTags = [];
+            if (tempArrSelectTags != null) {
+                if (tempArrSelectTags[0] != null) {
+                    for (let i = 0; i < tempArrSelectTags.length; i++) {
+                        arrSelectTags[i] = tempArrSelectTags[i].name;
+                    }
+                }
+            }
+
+
+            var tempBookName = [[${selectFiltrBookName}]];
+            if (tempBookName != null) {
+                document.getElementById("NameClassInputSearchNameBook").setAttribute("value", tempBookName);
+            }
+
+            var SearchAllListTags = document.getElementById('NameClassInputSearchTgas');
+            var AllListTags = document.getElementById('NameClassAllListTags');
+            var SelectListTag = document.getElementById('SelectListTag');
+
+            var SerchAllListGenre = document.getElementById('NameClassInputSearchGenre');
+            var AllListGenre = document.getElementById('NameClassAllListGenre');
+            var SelectListGenre = document.getElementById('SelectListGenre');
+
+            function renderSelectGenres(_list = [], el = document.body) {
+                el.innerHTML = "";
+                for (let i = 0; i < _list.length; i++) {
+                    // var div = document.createElement("div");
+                    var div = document.createElement("div");
+                    div.setAttribute("onclick", "selectedGenreClickEl(this.outerText)");
+                    div.setAttribute("class","badge rounded-pill bg-secondary cursorPointer")
+                    div.append(_list[i]);
+                    //div.setAttribute("text", _list[i]);
+                    el.appendChild(div);
+                }
+                inputGenres(_list);
+            }
+            function renderAllGenres(_list = [], el = document.body) {
+                el.innerHTML = "";
+                for (let i = 0; i < _list.length; i++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("onclick", "allGenreClickEl(this.outerText)");
+                    option.append(_list[i]);
+                    el.appendChild(option);
+                }
+            }
+            function renderSelectTags(_list = [], el = document.body) {
+                el.innerHTML = "";
+                for (let i = 0; i < _list.length; i++) {
+                    var div = document.createElement("div");
+                    div.setAttribute("onclick", "selectedTagsClickEl(this.outerText)");
+                    div.setAttribute("class","badge rounded-pill bg-success cursorPointer")
+                    div.append(_list[i]);
+                    el.appendChild(div);
+                }
+                inputTags(_list);
+            }
+            function renderAllTags(_list = [], el = document.body) {
+                el.innerHTML = "";
+                for (let i = 0; i < _list.length; i++) {
+                    var option = document.createElement("option");
+                    option.setAttribute("onclick", "allTagsClickEl(this.outerText)");
+                    option.append(_list[i]);
+                    el.appendChild(option);
+                }
+            }
+
+            function selectedGenreClickEl(obj) {
+                clickSeclected(obj, arrAllGenres, arrSelectGenres);
+                renderGenre();
+            }
+            function allGenreClickEl(obj){
+                clickAll(obj, arrAllGenres, arrSelectGenres);
+                renderGenre();
+            }
+            function renderGenre(){
+                checkArr(arrAllGenres, arrSelectGenres);
+                renderAllGenres(arrAllGenres, AllListGenre);
+                renderSelectGenres(arrSelectGenres, SelectListGenre); //////////////
+            }
+
+
+
+            function selectedTagsClickEl(obj) {
+                clickSeclected(obj, arrAllTags, arrSelectTags);
+                renderTag();
+            }
+            function allTagsClickEl(obj){
+                clickAll(obj, arrAllTags, arrSelectTags);
+                renderTag();
+            }
+            function renderTag(){
+                checkArr(arrAllTags, arrSelectTags);
+                renderAllTags(arrAllTags, AllListTags);
+                renderSelectTags(arrSelectTags,SelectListTag);/////////////
+            }
+
+            renderGenre();
+            renderTag();
+
+
+
+            document.getElementById('NameClassInputSearchTgas').addEventListener('input', e => {
+                renderAllTags(filter(e.target.value, arrAllTags), AllListTags);});
+            document.getElementById('NameClassInputSearchGenre').addEventListener('input', e => {
+                renderAllGenres(filter(e.target.value, arrAllGenres), AllListGenre);});
+        </script>
+
+        <div class="container">
+            <div class="gridCard">
+                    <!--Карточки-->
+                <div th:each="book : ${listBooks.listBook}" class="">
+                    <a th:href="'book?id=' + ${book.book.id}">
+                        <div th:insert="~{fragments/cardSmall :: main (${book})}"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:insert="~{fragments/footer :: main}"></div>
+
+
+</body>
+</html>
